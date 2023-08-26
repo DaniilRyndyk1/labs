@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <title>Погода по городам</title>
+        <link href="bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="weather_template" class="col-3" style="border: solid black;" hidden>
+            <div class="row">
+                <div class="col">
+                    <h3 class="city_name">City Name</h3>
+                </div>
+                <div class="col">
+                    <h5 class="weather" style="margin-top: 5%;">Weather</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h6 class="temp">+1</h3>
+                </div>
+                <div class="col">
+                    <h6 class="feels_temp">+1</h3>
+                </div>
+                <div class="col">
+                    <h6 class="temp_min">+1</h3>
+                </div>
+                <div class="col">
+                    <h6 class="temp_max">+1</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h6 class="humidity">Влажно</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h6 class="wind_speed">Супер скорость</h3>
+                </div>
+                <div class="col">
+                    <h6 class="wind_deg">250 градусов</h3>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <input id="citiesInput" type="text" value="moscow,london,dmitrov"/>
+                    <input onclick="loadCities()" value="Загрузить погоду" type="button"/>
+                </div>
+            </div>
+            <br>
+            <div id="frame" class="row">
+
+            </div>
+        </div>
+        <script>
+            var apiKey = "094f853e31d9acc1b75d6251dfe35a1b";
+            var cities = [];
+
+            if (localStorage.getItem("cities") != null) {
+                var cities = JSON.parse(localStorage.getItem("cities"));
+            }
+
+            showData();
+
+            function loadCities() {
+                cities = [];
+                frame.replaceChildren();
+
+                var citiesName = citiesInput.value.split(',');
+                for (var i = 0; i < citiesName.length; i++) {
+                    var path = 'http://api.openweathermap.org/data/2.5/weather?q=' + citiesName[i] + '&appid=' + apiKey + "&lang=ru";
+                    fetch(path, {method: "GET"})
+                    .then(response => response.json())
+                    .then((data) => {
+                        var city = {
+                            name: data.name,
+                            weather: capitalizeFirstLetter(data.weather[0].description),
+                            temp: convertFtoC(data.main.temp),
+                            feels_like: convertFtoC(data.main.feels_like),
+                            temp_min: convertFtoC(data.main.temp_min),
+                            temp_max: convertFtoC(data.main.temp_max),
+                            humidity: parseFloat(data.main.humidity),
+                            wind_speed: parseFloat(data.wind.speed),
+                            wind_deg: parseFloat(data.wind.deg)
+                        };
+                        cities.push(city);
+                        localStorage.setItem("cities", JSON.stringify(cities));
+                        showCity(city);
+                    });
+                }
+            }
+
+            function showData() {
+                for (var i = 0; i < cities.length; i++) {
+                    showCity(cities[i]);
+                }
+            }
+
+            function showCity(city) {
+                var element = weather_template.cloneNode(true);
+                element.removeAttribute("id");
+                setAttribute(element, "city_name", city.name);
+                setAttribute(element, "weather", city.weather);
+                setAttribute(element, "temp", "Температура: " + city.temp + " °C");
+                setAttribute(element, "feels_temp", "Ощущается как: " + city.feels_like + " °C");
+                setAttribute(element, "temp_min", "Минимальная: " + city.temp_min + " °C");
+                setAttribute(element, "temp_max", "Максимальная: " + city.temp_max + " °C");
+                setAttribute(element, "humidity", "Влажность: " + city.humidity);
+                setAttribute(element, "wind_speed", "Скорость ветра: " + city.wind_speed + " м\\с");
+                setAttribute(element, "wind_deg", "Направление ветра: " + city.wind_deg + "°");
+                element.removeAttribute("hidden");
+                frame.appendChild(element)
+            }
+
+            function setAttribute(element, className, value) {
+                element.getElementsByClassName(className)[0].innerHTML = value;
+            }
+
+            function convertFtoC(value) {
+                var F = parseFloat(value);
+                return Math.round((F - 273)*100, 5)/100;
+            }
+
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+        </script>
+    </body>
+</html>
