@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-class UsersView extends React.Component {
+class PostsView extends React.Component {
 
     state = {
         login: "",
@@ -26,7 +26,7 @@ class UsersView extends React.Component {
         list.current.appendChild(tr);
     }
 
-    loadUsers = () => {
+    loadPosts = () => {
         let list = this.UsersList;
         let message = this.Message.current;
         message.innerText = "";
@@ -93,7 +93,7 @@ class UsersView extends React.Component {
     }
 
     componentDidMount() { 
-        this.loadUsers();
+        this.loadPosts();
     }
 
     render() {
@@ -147,5 +147,5 @@ class UsersView extends React.Component {
 }
 
 export default function WithLocation(props) {
-    return <UsersView {...props} navigate={useNavigate()} location={useLocation()} />
+    return <PostsView {...props} navigate={useNavigate()} location={useLocation()} />
 }
