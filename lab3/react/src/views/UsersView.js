@@ -35,7 +35,7 @@ class UsersView extends React.Component {
         let loadUsers = this.loadUsers;
         list.current.innerText = "";
         $.ajax({
-            url: 'http://localhost:8080/users?token=' + state.accessToken,
+            url: 'https://test-tb6i.onrender.com/users?token=' + state.accessToken,
             type: "GET",
             headers: {
                 'Accept': 'application/json',
@@ -64,7 +64,7 @@ class UsersView extends React.Component {
             error: function (error) {
                 if (error.status === 403) {
                     $.ajax({
-                        url: 'http://localhost:8080/refresh?token=' + state.refrechToken,
+                        url: 'https://test-tb6i.onrender.com/refresh?token=' + state.refrechToken,
                         type: "POST",
                         headers: {
                             'Accept': 'application/json',
