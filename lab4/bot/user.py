@@ -1,10 +1,13 @@
 
 
 class User(object):
-    def __init__(self, id: int) -> None:
-        self.__id = id
+    def __init__(self, id: int, removable: bool = True) -> None:
+        self.id = id
         self.__is_admin = False
-        self.channel_url = ""
+        self.__is_removable = removable
+
+    def can_be_removed(self) -> bool:
+        return self.__is_removable
 
     def is_admin(self) -> bool:
         return self.__is_admin
