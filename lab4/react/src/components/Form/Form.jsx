@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, {useCallback, useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
+import './Form.css';
 
-function App() {
-
-  const query = new URLSearchParams(useLocation().search);
-  const url = query.get('url');
-  const postId = query.get('postId');
+const Form = () => {
+    const {url, postId} = useParams();
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -21,6 +19,6 @@ function App() {
       }, []);
     
     return <div id="telegram-widget"></div>;
-}
+};
 
-export default App;
+export default Form;
