@@ -1,5 +1,4 @@
-from telegram import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
-import channel_parser
+from telegram import ReplyKeyboardMarkup
 
 def get_settings_keyboard():
     buttons = [
@@ -21,7 +20,7 @@ def get_settings_keyboard():
 
     return ReplyKeyboardMarkup(buttons, resize_keyboard=True)
 
-async def get_main_keyboard(channel):
+async def get_main_keyboard():
     buttons = [
         [
             "Посмотреть последние посты"
@@ -35,12 +34,3 @@ async def get_main_keyboard(channel):
     ]
 
     return ReplyKeyboardMarkup(buttons, resize_keyboard=True)
-
-def get_empty_keyboard():
-    buttons = [
-        [
-            ""
-        ]
-    ]
-
-    return ReplyKeyboardMarkup(buttons, is_persistent=True, resize_keyboard=True)

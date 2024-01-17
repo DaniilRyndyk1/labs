@@ -2,13 +2,12 @@ import logging
 
 from warnings import filterwarnings
 from handlers import *
+from settings import TOKEN
 
 from telegram.warnings import PTBUserWarning
 
 from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ConversationHandler
-
-TOKEN = "6824033913:AAESU0MjjEmWO_3IyobafCwZDXRZw0zwOsw"
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO

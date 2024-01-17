@@ -1,5 +1,3 @@
-
-
 class User(object):
     def __init__(self, id: int, removable: bool = True) -> None:
         self.id = id

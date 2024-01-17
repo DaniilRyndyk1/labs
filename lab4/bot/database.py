@@ -1,14 +1,8 @@
 import sqlite3
 
 from user import User
+from settings import *
 
-USERS_TABLE_NAME = "users"
-META_TABLE_NAME = "meta"
-CHANNEL_URL_COLLUMN_NAME = "CHANNEL_URL"
-ADMIN_USER_ID = [
-    1832921877,
-    310519888
-]
 
 class Database():
 
@@ -38,7 +32,7 @@ class Database():
         if result == None:
             cursor.execute(f"CREATE TABLE {META_TABLE_NAME}(name TEXT, value TEXT)")
             self.__connection.execute(f'''INSERT INTO {META_TABLE_NAME} 
-                                          VALUES ('{CHANNEL_URL_COLLUMN_NAME}', '')''')
+                                          VALUES ('{CHANNEL_URL_COLUMN_NAME}', '')''')
             self.__connection.commit()
 
     def exists(self, id: int) -> bool:
@@ -99,13 +93,13 @@ class Database():
     def set_channel_url(self, url: str) -> None:
         self.__cursor.execute(f'''UPDATE {META_TABLE_NAME} 
                                   SET value='{url}'
-                                  WHERE name = '{CHANNEL_URL_COLLUMN_NAME}' ''')
+                                  WHERE name = '{CHANNEL_URL_COLUMN_NAME}' ''')
         self.__connection.commit()
 
     def get_channel_url(self) -> str:
         self.__cursor.execute(f'''SELECT value 
                                   FROM {META_TABLE_NAME} 
-                                  WHERE name = '{CHANNEL_URL_COLLUMN_NAME}' ''')
+                                  WHERE name = '{CHANNEL_URL_COLUMN_NAME}' ''')
         return self.__cursor.fetchone()[0]
     
     def set_admin(self, id: int) -> None:
