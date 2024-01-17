@@ -22,12 +22,11 @@ export default class RegisterView extends React.Component {
         var body = JSON.stringify(state);
 
         $.ajax({
-            url: 'http://localhost:8080/register',
+            url: 'https://test-tb6i.onrender.com/register',
             type: "POST",
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                "Content-Length": body.length
+                'Content-Type': 'application/json'
             },
             data: body,
             success: function () {
@@ -35,7 +34,7 @@ export default class RegisterView extends React.Component {
                 navigate('/', {state: state})
             },
             error: function (error) {
-                alert("Не удалось зарегистрироваться, " + error.responseJSON.error);
+                alert("Не удалось зарегистрироваться, " + JSON.stringify(error.responseJSON));
             }
         });
     }

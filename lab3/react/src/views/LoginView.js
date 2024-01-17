@@ -24,7 +24,7 @@ class LoginView extends React.Component {
         var body = JSON.stringify(state);
 
         $.ajax({
-            url: 'http://localhost:8080/login',
+            url: 'https://test-tb6i.onrender.com/login',
             type: "POST",
             headers: {
                 'Accept': 'application/json',
