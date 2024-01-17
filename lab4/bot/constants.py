@@ -13,9 +13,6 @@ from telegram.ext import ConversationHandler
     SHOWING_MENU,
     BACK,
     SETTINGS
-    # TYPING_REMOVE_ADMIN,
-    # TYPING_ADD_ADMIN,
-    # TYPING_URL
 ) = map(chr, range(10, 22))
 
 END = ConversationHandler.END

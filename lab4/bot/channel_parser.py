@@ -1,7 +1,4 @@
-import json
-from telethon import TelegramClient, sync
-from telethon.tl.types import ChannelParticipantsSearch
-from telethon.tl.functions.channels import GetParticipantsRequest
+from telethon import TelegramClient
 from telethon.tl.functions.messages import GetHistoryRequest
 
 SESSION_NAME = "channel_parser"
@@ -15,12 +12,11 @@ def print_posts(chat):
         print(message.sender_id, ':', message.text)
 
 async def get_history(channel):
-	offset_msg = 0    # номер записи, с которой начинается считывание
-	limit_msg = 5   # максимальное число записей, передаваемых за один раз
+	offset_msg = 0
+	limit_msg = 5
 
-	all_messages = []   # список всех сообщений
-	total_messages = 0
-	total_count_limit = 5  # поменяйте это значение, если вам нужны не все сообщения
+	all_messages = []
+	total_count_limit = 5
 
 	while True:
 		history = await client(GetHistoryRequest(
@@ -32,12 +28,13 @@ async def get_history(channel):
 			max_id=0, 
 			min_id=0,
 			hash=0))
+		
 		if not history.messages:
 			break
+
 		messages = history.messages
 		for message in messages:
 			data = message.to_dict()
-			# print(data)
 			all_messages.append({
 				'id': data['id'],
 				'text': data['message']
@@ -47,6 +44,3 @@ async def get_history(channel):
 				return all_messages
 
 	return all_messages
-
-# if __name__ == "__main__":
-#     get_history('rian_ru')

@@ -18,7 +18,6 @@ class Database():
         cursor = self.__connection.cursor()
         self.__cursor = cursor
 
-        # создание таблицы пользователей
         cursor.execute(f'''SELECT name 
                            FROM sqlite_master 
                            WHERE type='table' AND name = '{USERS_TABLE_NAME}' ''')
@@ -30,7 +29,6 @@ class Database():
                 user.set_admin()
                 self.save_user(user)
 
-        # создание таблицы с настройками бота
         cursor.execute(f'''SELECT name
                            FROM sqlite_master
                            WHERE type='table' AND name = '{META_TABLE_NAME}' ''')

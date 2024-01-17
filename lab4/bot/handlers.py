@@ -6,8 +6,8 @@ from constants import *
 from database import Database
 import channel_parser
 
-from telegram import KeyboardButton, InlineKeyboardMarkup, Update, ReplyKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardRemove
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackQueryHandler, ConversationHandler
+from telegram import InlineKeyboardMarkup, Update, ReplyKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardRemove
+from telegram.ext import ContextTypes
 
 database = Database()
 
@@ -50,7 +50,6 @@ async def show_url(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     keyboard = ReplyKeyboardMarkup([["Назад"]], resize_keyboard=True)
 
     await update.message.reply_text(text=text, reply_markup=keyboard)
-    # await update.callback_query.edit_message_text(text=text, reply_markup=keyboard)
 
     return BACK
 
@@ -155,8 +154,6 @@ async def show_posts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     for post in posts:
         if post['text'] != '':
             url = f"https://daniilryndyk1.github.io/testtest?url={channel}&postId={post['id']}"
-            print(url)
-            # web_app = WebAppInfo(url)
             button = InlineKeyboardButton(text="Прокомментировать", url=url)
             keyboard = InlineKeyboardMarkup([[button]])
             await update.message.reply_text(text=f"{post['text']}", reply_markup=keyboard)
@@ -209,9 +206,6 @@ async def remove_admin_input(update: Update, context: ContextTypes.DEFAULT_TYPE)
     await show_settings_menu(update, context)
     return action
 
-# async def back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
-#     return BACK
-
 async def show_id(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     current_id = update.effective_user.id
     await update.message.reply_text(text=f"Ваш id: {current_id}")
@@ -230,13 +224,9 @@ async def end_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     global database
     url = database.get_channel_url()
     await update.message.reply_text(text="Редактирование настроек завершено", reply_markup=await get_main_keyboard(url))
-    # await update.callback_query.answer()
-    # await update.callback_query.edit_message_text("Редактирование настроек успешно завершено")
     return END
 
 
 async def end(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text(text="Бот отключен", reply_markup=ReplyKeyboardRemove())
-    # await update.callback_query.answer()
-    # await update.callback_query.edit_message_text("Редактирование настроек успешно завершено")
     return END
